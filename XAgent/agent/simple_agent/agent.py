@@ -12,7 +12,7 @@ from XAgent.logs import logger
 from XAgent.data_structure.node import ToolNode
 from XAgent.ai_functions import function_manager, objgenerator
 from XAgent.config import CONFIG
-from openai import AzureOpenAI
+from openai import OpenAI
 from .post_process import (
     parse_math_answer,
     remove_not,
@@ -46,10 +46,9 @@ class SimpleAgent(BaseAgent):
         temp = 0.2
         for i in range(6):
             try:
-                client = AzureOpenAI(
+                client = OpenAI(
                     api_key=CONFIG.api_keys[model][0]["api_key"],
-                    api_version=CONFIG.api_keys[model][0]["api_version"],
-                    azure_endpoint=CONFIG.api_keys[model][0]["api_base"],
+                    base_url=CONFIG.api_keys[model][0]["api_base"],
                 )
                 response = client.chat.completions.create(
                     model=model_name,

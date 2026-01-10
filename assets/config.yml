@@ -2,29 +2,25 @@
 api_keys:
   embedding:
     - api_key: 
-      api_base: 
-      api_type: 
-      api_version: 
-      engine:
+      api_base: http://35.220.164.252:3888/v1
+      api_type: azure
+      api_version: "2023-05-15"
+      engine: gpt-3.5-turbo-16k
   gpt-3.5-turbo-16k:
     - api_key: 
-      api_base: 
-      api_type: 
-      api_version: 
-      engine: 
+      api_base: http://35.220.164.252:3888/v1
+      engine: gpt-3.5-turbo-16k
   gpt-4:
     - api_key: 
-      api_base: 
-      api_type: 
-      api_version:
-      engine: 
+      api_base: http://35.220.164.252:3888/v1
+      engine: gpt-4
 
 
 
 default_request_type: openai # or xagent or llama
 default_completion_kwargs:
   model: gpt-3.5-turbo-16k
-  eva_model: gpt-4
+  eva_model: gpt-3.5-turbo-16k # gpt-4
   temperature: 0.2
   request_timeout: 60
 
@@ -66,6 +62,6 @@ engine: gpt # or gpt
 image: True
 imagination_threshold: 0.9
 
-eva_model: gpt-4
+eva_model: gpt-3.5-turbo-16k # gpt-4
 
 web_search: False

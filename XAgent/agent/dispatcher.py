@@ -124,8 +124,6 @@ class XAgentDispatcher(AgentDispatcher):
             from .plan_generate_agent import get_examples_for_dispatcher
         elif ability_type == RequiredAbilities.plan_refinement:
             from .plan_refine_agent import get_examples_for_dispatcher
-        elif ability_type == RequiredAbilities.tool_tree_search:
-            from .tool_agent import get_examples_for_dispatcher
         elif ability_type == RequiredAbilities.reflection:
             from .reflect_agent import get_examples_for_dispatcher
         elif ability_type == RequiredAbilities.father_reflection:

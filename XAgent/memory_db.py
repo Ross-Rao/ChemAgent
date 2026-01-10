@@ -1,9 +1,8 @@
 from llama_index.llms.azure_openai import AzureOpenAI
-from llama_index.embeddings.azure_openai import AzureOpenAIEmbedding
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.core.schema import BaseNode, TextNode
 from llama_index.core.schema import TextNode, NodeRelationship, RelatedNodeInfo
-from openai import AzureOpenAI
+from openai import OpenAI
 from llama_index.core.vector_stores import (
     MetadataFilter,
     MetadataFilters,
@@ -15,6 +14,12 @@ try:
     from .imagination_engine import imagination
 except ImportError:
     from imagination_engine import imagination
+
+try:
+    from XAgent.custom_embedding import CustomEmbedding
+except ImportError:
+    from custom_embedding import CustomEmbedding
+
 try:
     from XAgent.config import CONFIG
 except ImportError:
@@ -56,7 +61,7 @@ def format_dict(input_dict, index, status):
 class MemoryDB:
     def __init__(self, insert_mode=True, init_mode=False):
         self.insert_mode = insert_mode
-        self.embed_model = AzureOpenAIEmbedding(
+        self.embed_model = CustomEmbedding(
             api_key=api_key,
             deployment_name="text-embedding-ada-002",
             azure_endpoint=azure_endpoint,
@@ -162,14 +167,13 @@ class MemoryDB:
             {"role": "user", "content": prompt},
         ]
 
-        client = AzureOpenAI(
+        client = OpenAI(
             api_key=api_key,
-            api_version=api_version,
-            azure_endpoint=azure_endpoint,
+            base_url=azure_endpoint,
         )
 
         response = client.chat.completions.create(
-            model="GPT-35-Turbo-16k", messages=message_text
+            model="gpt-3.5-turbo-16k", messages=message_text
         )
         response = response.choices[0].message.content
         if response in subjects:

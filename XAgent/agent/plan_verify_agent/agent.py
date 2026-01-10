@@ -11,7 +11,7 @@ from XAgent.logs import logger
 from XAgent.data_structure.node import ToolNode
 from XAgent.ai_functions import function_manager, objgenerator
 from XAgent.config import CONFIG
-from openai import AzureOpenAI
+from openai import OpenAI
 from .post_process import (
     parse_math_answer,
     remove_not,
@@ -42,9 +42,9 @@ class PlanVerifyAgent(BaseAgent):
         model_name = CONFIG.api_keys[model][0]["engine"]
         response = None
         temp = 0.2
-        client = AzureOpenAI(
-            api_key=os.getenv("OPENAI_API_KEY", None),
-
+        client = OpenAI(
+            api_key=CONFIG.api_keys[model][0]["api_key"],
+            base_url=CONFIG.api_keys[model][0]["api_base"],
         )
 
         try:

@@ -2,7 +2,7 @@ try:
     from XAgent.config import CONFIG
 except ImportError:
     from config import CONFIG
-from openai import AzureOpenAI
+from openai import OpenAI
 import re
 
 IMG_PROMPT = """
@@ -62,10 +62,9 @@ def call_engine(query):
     temp = int(CONFIG.default_completion_kwargs["temperature"])
 
     try:
-        client = AzureOpenAI(
+        client = OpenAI(
             api_key=CONFIG.api_keys[model][0]["api_key"],
-            api_version=CONFIG.api_keys[model][0]["api_version"],
-            azure_endpoint=CONFIG.api_keys[model][0]["api_base"],
+            base_url=CONFIG.api_keys[model][0]["api_base"],
         )
         response = client.chat.completions.create(
             model=model_name,

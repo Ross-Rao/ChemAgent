@@ -1,5 +1,4 @@
 from llama_index.llms.azure_openai import AzureOpenAI
-from llama_index.embeddings.azure_openai import AzureOpenAIEmbedding
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.core.schema import BaseNode, TextNode
 
@@ -10,6 +9,10 @@ from llama_index.core.vector_stores import (
 )
 from llama_index.core import StorageContext, load_index_from_storage
 
+try:
+    from XAgent.custom_embedding import CustomEmbedding
+except ImportError:
+    from custom_embedding import CustomEmbedding
 
 try:
     from XAgent.config import CONFIG
@@ -66,7 +69,7 @@ def MemoryDB_clear():
 class PlanMemoryDB:
     def __init__(self, insert_mode=True, init_mode=False):
         self.insert_mode = insert_mode
-        self.embed_model = AzureOpenAIEmbedding(
+        self.embed_model = CustomEmbedding(
             api_key=api_key,
             deployment_name="text-embedding-ada-002",
             azure_endpoint=azure_endpoint,
